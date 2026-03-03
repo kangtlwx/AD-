@@ -1,0 +1,10 @@
+{
+  "event_type": "process_instance_change",
+  "status": "COMPLETED",
+  "instance_id": "PROC-2026-0001",
+  "applicant_name": "Zhang San",
+  "employee_no": "A10086",
+  "department": "R&D",
+  "is_outsourcing": true,
+  "requested_groups": ["GG-RD-BASIC"]
+}
