@@ -42,6 +42,7 @@ python -m app.main
 ```bash
 curl -X POST 'http://127.0.0.1:8000/webhook/dingtalk/approval' \
   -H 'Content-Type: application/json' \
+  -H 'X-Webhook-Secret: demo-secret' \
   --data @demos/sample_approval.json
 ```
 
@@ -54,6 +55,7 @@ curl -X POST 'http://127.0.0.1:8000/webhook/dingtalk/approval' \
 - `POWERSHELL_PATH=pwsh`
 - `PROVISION_SCRIPT=./scripts/Create-AdExchangeUser.ps1`
 - `IDEMPOTENCY_DB=./data/idempotency.db`
+- `WEBHOOK_SECRET`（必填，必须与请求头 `X-Webhook-Secret` 一致）
 
 ## 对接真实 AD/Exchange
 

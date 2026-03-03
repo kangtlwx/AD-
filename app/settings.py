@@ -15,6 +15,7 @@ class Settings:
         "PROVISION_SCRIPT", "./scripts/Create-AdExchangeUser.ps1"
     )
     idempotency_db: str = os.getenv("IDEMPOTENCY_DB", "./data/idempotency.db")
+    webhook_secret: str = os.getenv("WEBHOOK_SECRET", "")
 
 
 settings = Settings()

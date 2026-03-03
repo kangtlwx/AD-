@@ -1,3 +1,4 @@
+import hmac
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -9,6 +10,14 @@ from app.settings import settings
 
 store = IdempotencyStore(settings.idempotency_db)
 provisioner = Provisioner()
+
+
+def is_request_authorized(headers: dict[str, str], webhook_secret: str) -> bool:
+    if not webhook_secret:
+        return False
+
+    received_secret = headers.get("X-Webhook-Secret", "")
+    return hmac.compare_digest(received_secret, webhook_secret)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -29,6 +38,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:  # noqa: N802
         if self.path != "/webhook/dingtalk/approval":
             self._send(404, {"ok": False, "message": "not found"})
+            return
+
+        if not is_request_authorized(dict(self.headers.items()), settings.webhook_secret):
+            self._send(401, {"ok": False, "message": "unauthorized webhook request"})
             return
 
         try:
